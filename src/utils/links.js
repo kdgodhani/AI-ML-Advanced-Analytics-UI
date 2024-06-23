@@ -6,17 +6,18 @@ import { FaTasks } from "react-icons/fa";
 import { MdOutlineAddBox } from "react-icons/md";
 
 const links = [
-  /*{ id: 1, text: "statistics", path: "/", icon: <IoBarChartSharp /> },*/
-  { id: 2, text: "your projects", path: "projects", icon: <FaProjectDiagram /> },
+  { id: 1, text: "Report Dashboard", path: "report-dashboard", icon: <FaProjectDiagram /> },
   {
-    id: 3,
-    text: "received tasks",
-    path: "tasks",
+    id: 2,
+    text: "Analytics",
+    path: "analytics",
     icon: <FaTasks />,
   },
-  { id: 4, text: "profile", path: "profile", icon: <ImProfile /> },
+  { id: 3, text: "Url Generate", path: "url-generate",
+     icon: <ImProfile /> 
+    },
   /*{
-    id: 5,
+    id: 4,
     text: 'create project',
     path: 'add-project',
     icon: <MdOutlineAddBox />,

@@ -12,10 +12,10 @@ const Landing = () => {
         {/* info */}
         <div className="info">
           <h1>
-          Analytics <span> Dashboard </span>
+          DhiWise <span> E-commerce  </span>
           </h1>
           <p>
-          E-commerce 
+          AI- powered  
           </p>
 
           <Link to="/register" className="btn btn-hero">

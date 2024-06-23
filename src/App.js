@@ -76,12 +76,13 @@ function App() {
             </ProtectedRoute>
           }
         >
-          <Route index element={<Home />} />
-          {/* <Route path="report-dashboard" element={<ReoortDashboard />} />
+        <Route path="admin-dashboard" element={<Home />} />
+          {/* <Route path="report-dashboard" element={<ReportDashboard />} />
           <Route path="analytics" element={<Analytics />} />
           <Route path="url-generate" element={<UrlGenerate />} /> */}
-
         </Route>
+
+
 
         <Route path="landing" element={<Landing />} />
         <Route path="register" element={<Register />} />

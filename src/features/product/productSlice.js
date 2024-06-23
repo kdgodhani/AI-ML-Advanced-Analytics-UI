@@ -79,6 +79,6 @@ const productsSlice = createSlice({
   },
 });
 
-export const { setDashboardText } = userSlice.actions;
+export const { setDashboardText } = productsSlice.actions;
 
 export default productsSlice.reducer;

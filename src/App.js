@@ -4,8 +4,8 @@ import { Landing, Error, Register, ProtectedRoute, Home } from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
-
   SharedLayout,
+  Product,
   // ReoortDashboard,
   // Analytics,
   // UrlGenerate
@@ -68,7 +68,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-      <Route
+        <Route
           path="/"
           element={
             <ProtectedRoute>
@@ -76,17 +76,15 @@ function App() {
             </ProtectedRoute>
           }
         >
-        <Route path="admin-dashboard" element={<Home />} />
+          <Route path="admin-dashboard" element={<Home />} />
           {/* <Route path="report-dashboard" element={<ReportDashboard />} />
           <Route path="analytics" element={<Analytics />} />
           <Route path="url-generate" element={<UrlGenerate />} /> */}
         </Route>
 
-
-
         <Route path="landing" element={<Landing />} />
         <Route path="register" element={<Register />} />
-        {/* <Route path="products" element={<Products />} /> */}
+        <Route path="product" element={<Product />} />
         <Route path="*" element={<Error />} />
       </Routes>
       <ToastContainer position="top-center" />

@@ -1,16 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import userSlice from "./features/user/userSlice";
-// import allTasksSlice from "./features/tasks/allTasksSlice";
-// import allProjectsSlice from "./features/project/projectSlice";
-// import currentProjectSlice from "./features/currentProject/currentProjectSlice";
+// import cartReducer from "./features/cart/cartSlice";
+// import productsReducer from "./features/product/productsReducer";
+// import transactionsReducer from "./features/transaction/transactionsReducer";
 
 export const store = configureStore({
   reducer: {
     user: userSlice,
-    // allTasks: allTasksSlice,
-    // allProjects: allProjectsSlice,
-    // currentProject: currentProjectSlice,
-    //newTask: addNewTaskSlice,
+    // cart: cartReducer,
+    // products: productsReducer,
+    // transactions: transactionsReducer,
   },
 });

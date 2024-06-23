@@ -13,7 +13,6 @@ const initialState = {
   user: getUserFromLocalStorage(),
   dashBoardText: "Dashboard",
   userImage: "",
-  userParticipationProjects: [],
 };
 
 

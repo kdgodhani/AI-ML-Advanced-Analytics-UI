@@ -86,6 +86,7 @@ function App() {
 
         <Route path="landing" element={<Landing />} />
         <Route path="register" element={<Register />} />
+        {/* <Route path="products" element={<Products />} /> */}
         <Route path="*" element={<Error />} />
       </Routes>
       <ToastContainer position="top-center" />

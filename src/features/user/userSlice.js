@@ -88,7 +88,6 @@ const userSlice = createSlice({
     },
     setDashboardText: (state, { payload }) => {
       state.dashBoardText = payload;
-      // console.log("dashboardtext" + state.dashBoardText);
     },
   },
 
@@ -96,15 +95,14 @@ const userSlice = createSlice({
     builder
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
-        // console.log("pending");
       })
       .addCase(registerUser.fulfilled, (state, { payload }) => {
-        const user = payload.data[0];
+        const user = payload.data;
         
         state.isLoading = false;
         state.user = user;
         addUserToLocalStorage(user);
-        toast.success(`Hello There ${user.name}`);
+        toast.success(`Hello There ${user.user_name}`);
       })
       .addCase(registerUser.rejected, (state, { payload }) => {
         state.isLoading = false;
@@ -119,8 +117,7 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.user = user;
         addUserToLocalStorage(user);
-        toast.success(`Welcome ${user.name}`);
-        // console.log(user);
+        toast.success(`Welcome ${user.user_name}`);
       })
       .addCase(loginUser.rejected, (state, { payload }) => {
         state.isLoading = false;

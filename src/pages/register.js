@@ -9,12 +9,6 @@ import {
   toggleSidebar,
 } from "../features/user/userSlice";
 import { useNavigate } from "react-router-dom";
-// import {
-//   clearCurrentProjectState,
-//   getProjectMembers,
-//   getProjectTasks,
-//   setCurrentProject,
-// } from "../features/currentProject/currentProjectSlice";
 
 const initialState = {
   name: "",
@@ -25,11 +19,11 @@ const initialState = {
 
 function Register() {
   const [values, setValues] = useState(initialState);
-  // const { user, isLoading } = useSelector((store) => store.user);
+  const { user, isLoading } = useSelector((store) => store.user);
 
-  // const dispatch = useDispatch();
-  // const navigate = useNavigate();
-  // const { isSidebarOpen } = useSelector((store) => store.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isSidebarOpen } = useSelector((store) => store.user);
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -45,25 +39,25 @@ function Register() {
       return;
     }
     if (isMember) {
-      // dispatch(loginUser({ email: email, password: password }));
-      // dispatch(toggleSidebar());
+      dispatch(loginUser({ email: email, password: password }));
+      dispatch(toggleSidebar());
 
       return;
     }
-    // dispatch(registerUser({ name, email, password }));
+    dispatch(registerUser({ name, email, password }));
   };
 
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember });
   };
 
-  // useEffect(() => {
-  //   if (user) {
-  //     setTimeout(() => {
-  //       navigate("/");
-  //     }, 2000);
-  //   }
-  // }, [user]);
+  useEffect(() => {
+    if (user) {
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    }
+  }, [user]);
 
   return (
     <Wrapper className="full-page">
@@ -93,9 +87,9 @@ function Register() {
           value={values.password}
           handleChange={handleChange}
         />
-        {/* <button type="submit" className="btn btn-block" disabled={isLoading}>
+        <button type="submit" className="btn btn-block" disabled={isLoading}>
           {isLoading ? "loading..." : "submit"}
-        </button> */}
+        </button>
         <p>
           {values.isMember ? "Not a member yet?" : "Already a member?"}
           <button type="button" onClick={toggleMember} className="member-btn">

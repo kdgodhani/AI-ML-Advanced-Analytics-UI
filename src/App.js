@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import {
   SharedLayout,
   Product,
-  // ReoortDashboard,
+  ReportDashboard,
   // Analytics,
   // UrlGenerate
 } from "./pages/dashboard";
@@ -77,9 +77,9 @@ function App() {
           }
         >
           <Route path="admin-dashboard" element={<Home />} />
-          {/* <Route path="report-dashboard" element={<ReportDashboard />} />
-          <Route path="analytics" element={<Analytics />} />
-          <Route path="url-generate" element={<UrlGenerate />} /> */}
+          <Route path="report-dashboard" element={<ReportDashboard />} />
+          {/* <Route path="analytics" element={<Analytics />} />
+           <Route path="url-generate" element={<UrlGenerate />} />  */}
         </Route>
 
         <Route path="landing" element={<Landing />} />

@@ -8,7 +8,7 @@ import {
   Product,
   ReportDashboard,
   PredictiveAnalytics,
-  // UrlGenerate
+  UrlGenerate,
 } from "./pages/dashboard";
 // import CryptoJS from 'crypto-js';
 
@@ -76,10 +76,10 @@ function App() {
             </ProtectedRoute>
           }
         >
-          <Route path="admin-dashboard" element={<Home />} />
+          <Route path="home" element={<Home />} />
           <Route path="report-dashboard" element={<ReportDashboard />} />
           <Route path="analytics" element={<PredictiveAnalytics />} />
-          {/* <Route path="url-generate" element={<UrlGenerate />} />  */}
+          <Route path="url-generate" element={<UrlGenerate />} />
         </Route>
 
         <Route path="landing" element={<Landing />} />

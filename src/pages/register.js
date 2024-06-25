@@ -23,7 +23,7 @@ function Register() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isSidebarOpen } = useSelector((store) => store.user);
+  // const { isSidebarOpen } = useSelector((store) => store.user);
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -54,7 +54,7 @@ function Register() {
   useEffect(() => {
     if (user) {
       setTimeout(() => {
-        navigate("/");
+        navigate("/home");
       }, 2000);
     }
   }, [user]);

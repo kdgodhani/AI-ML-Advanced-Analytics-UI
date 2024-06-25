@@ -7,7 +7,7 @@ import {
   SharedLayout,
   Product,
   ReportDashboard,
-  // Analytics,
+  PredictiveAnalytics,
   // UrlGenerate
 } from "./pages/dashboard";
 // import CryptoJS from 'crypto-js';
@@ -78,8 +78,8 @@ function App() {
         >
           <Route path="admin-dashboard" element={<Home />} />
           <Route path="report-dashboard" element={<ReportDashboard />} />
-          {/* <Route path="analytics" element={<Analytics />} />
-           <Route path="url-generate" element={<UrlGenerate />} />  */}
+          <Route path="analytics" element={<PredictiveAnalytics />} />
+          {/* <Route path="url-generate" element={<UrlGenerate />} />  */}
         </Route>
 
         <Route path="landing" element={<Landing />} />

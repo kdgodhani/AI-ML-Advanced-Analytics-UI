@@ -105,6 +105,8 @@ const productsSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getProductById.fulfilled, (state, { payload }) => {
+        console.log(payload, "this is payload  - 108");
+        console.log(state, "this is state");
         state.isLoading = false;
         state.productData = payload.data;
         // state.totalProducts = payload.data.length;

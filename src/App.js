@@ -9,6 +9,7 @@ import {
   ReportDashboard,
   PredictiveAnalytics,
   UrlGenerate,
+  Cart,
 } from "./pages/dashboard";
 
 const MainLayout = () => {
@@ -60,6 +61,14 @@ const MainLayout = () => {
             element={
               <ProtectedRoute roles={["Admin", "Customer"]}>
                 <Product />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="cart"
+            element={
+              <ProtectedRoute roles={["Admin", "Customer"]}>
+                <Cart />
               </ProtectedRoute>
             }
           />

@@ -7,8 +7,11 @@ import {
   createPurchaseOrder,
 } from "../../features/product/productSlice";
 import { toast } from "react-toastify";
-// import { loadCartItems } from "../../Utils/cartutils";
-// import { setCartItemsFromLocalStorage } from "../../features/cart/cartSlice";
+import { loadCartItems } from "../../utils/localStorage";
+import {
+  addToCart,
+  setCartItemsFromLocalStorage,
+} from "../../features/cart/cartSlice";
 
 const ProductPage = () => {
   const dispatch = useDispatch();
@@ -20,11 +23,12 @@ const ProductPage = () => {
 
   useEffect(() => {
     dispatch(fetchProducts());
-    // loadCartItems(dispatch, setCartItemsFromLocalStorage);
+    loadCartItems(dispatch, setCartItemsFromLocalStorage);
   }, [dispatch]);
 
   const handleAddToCart = (productId) => {
-    dispatch(createPurchaseOrder(productId));
+    console.log(productId, "productId");
+    dispatch(addToCart(productId));
     toast.success("Added to Cart", {
       position: "top-center",
     });

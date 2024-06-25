@@ -82,6 +82,24 @@ function App() {
           <Route path="url-generate" element={<UrlGenerate />} />
         </Route>
 
+        {/* <Route
+          path="/product"
+          element={
+            <ProtectedRoute>
+              <Product />
+            </ProtectedRoute>
+          }
+        /> */}
+
+        {/* <Route
+          path="/landing"
+          element={
+            <ProtectedRoute>
+              <Landing />
+            </ProtectedRoute>
+          }
+        /> */}
+
         <Route path="landing" element={<Landing />} />
         <Route path="register" element={<Register />} />
         <Route path="product" element={<Product />} />

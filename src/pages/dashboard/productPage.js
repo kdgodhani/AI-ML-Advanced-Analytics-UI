@@ -1,60 +1,57 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+// import './ProductDetails.css';
 import styled from "styled-components";
-// import './productDetails.css';
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getProducts,
-  //   createOrder,
+  fetchProducts,
+  createPurchaseOrder,
 } from "../../features/product/productSlice";
-// import {
-//   addToCart,
-//   //   setCartItemsFromLocalStorage,
-// } from "../../redux/slice/cartSlice";
-// import { localStorage } from "../../utils";
 import { toast } from "react-toastify";
+// import { loadCartItems } from "../../Utils/cartutils";
+// import { setCartItemsFromLocalStorage } from "../../features/cart/cartSlice";
 
 const ProductPage = () => {
   const dispatch = useDispatch();
-
-  let productList = [];
-  let isLoading = false;
-  //   const { productList, isLoading } = useSelector((state) => state.products);
+  const {
+    isLoading,
+    products = [],
+    error,
+  } = useSelector((state) => state.products);
 
   useEffect(() => {
-    // Load cart items from localStorage
-    // localStorage(dispatch, setCartItemsFromLocalStorage);
-
-    // Fetch products
-    dispatch(getProducts());
+    dispatch(fetchProducts());
+    // loadCartItems(dispatch, setCartItemsFromLocalStorage);
   }, [dispatch]);
 
   const handleAddToCart = (productId) => {
-    // dispatch(addToCart(productId));
+    dispatch(createPurchaseOrder(productId));
     toast.success("Added to Cart", {
       position: "top-center",
     });
   };
 
-  const handleCreateOrder = (productId) => {
-    // dispatch(createOrder(productId));
-    console.log(productId, "productId");
-  };
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  // if (error) {
+  //   return <div>Error: {error}</div>;
+  // }
 
   return (
     <Wrapper>
       <div className="product-page">
         <h1>Our Products</h1>
-        {isLoading && <p>Loading...</p>}
-        {productList.length === 0 ? (
+        {products.length === 0 ? (
           <div className="notfound">
             <p>No Products found</p>
           </div>
         ) : (
           <div className="product-grid">
-            {productList.map((product) => (
+            {products.map((product) => (
               <div key={product._id} className="product-card">
                 <img
-                  src={product.Image}
+                  src={product.image}
                   alt={product.name}
                   className="product-image"
                 />
@@ -67,12 +64,6 @@ const ProductPage = () => {
                     onClick={() => handleAddToCart(product._id)}
                   >
                     Add to cart
-                  </button>
-                  <button
-                    className="order-button"
-                    onClick={() => handleCreateOrder(product._id)}
-                  >
-                    Order
                   </button>
                 </div>
               </div>

@@ -2,10 +2,7 @@ import React, { useEffect } from "react";
 // import './ProductDetails.css';
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchProducts,
-  createPurchaseOrder,
-} from "../../features/product/productSlice";
+import { fetchProducts } from "../../features/product/productSlice";
 import { toast } from "react-toastify";
 import { loadCartItems } from "../../utils/localStorage";
 import {
@@ -15,11 +12,7 @@ import {
 
 const ProductPage = () => {
   const dispatch = useDispatch();
-  const {
-    isLoading,
-    products = [],
-    error,
-  } = useSelector((state) => state.products);
+  const { isLoading, products = [] } = useSelector((state) => state.products);
 
   useEffect(() => {
     dispatch(fetchProducts());

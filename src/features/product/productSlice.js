@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import customFetch, { checkForUnauthorizedResponse } from "../../utils/axios";
+import customFetch from "../../utils/axios";
 import { toast } from "react-toastify";
 // import {
 //   GetProducts,

@@ -17,10 +17,10 @@ const Cart = () => {
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [product, setProduct] = useState([]);
+  const [products, setProducts] = useState([]);
 
   // Calculate total amount
-  const totalAmount = product.reduce((total, item) => {
+  const totalAmount = products.reduce((total, item) => {
     const cartItem = cartItems.find((ci) => ci.id === item?._id);
     return total + item?.price * (cartItem?.quantity ?? 0);
   }, 0);
@@ -30,35 +30,30 @@ const Cart = () => {
     loadCartItems(dispatch, setCartItemsFromLocalStorage);
   }, [dispatch]);
 
-  // Update localStorage whenever cartItems change
-  useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
-  }, [cartItems]);
-
   // Fetch product details based on cart items
   useEffect(() => {
     const fetchProducts = async () => {
       if (cartItems.length === 0) {
-        setProduct([]);
+        setProducts([]);
         return;
       }
 
       try {
         const productIds = cartItems.map((obj) => obj.id);
         const productDataPromises = productIds.map((productId) =>
-          getProductById(productId)
+          dispatch(getProductById(productId))
         );
         const responses = await Promise.all(productDataPromises);
-        const productData = responses.map((response) => response.response);
+        const productData = responses.map((response) => response.payload.data);
 
-        setProduct(productData);
+        setProducts(productData);
       } catch (error) {
         console.error("There was an error fetching the products!", error);
       }
     };
 
     fetchProducts();
-  }, [cartItems]);
+  }, [cartItems, dispatch]);
 
   const handleIncrement = (id) => {
     dispatch(incrementQuantity(id));
@@ -93,16 +88,16 @@ const Cart = () => {
         <p>Your cart is empty</p>
       ) : (
         <div className="cart-items">
-          {product?.map((item) => {
-            const cartItem = cartItems?.find(
-              (cartItem) => cartItem?.id === item?._id
+          {products.map((item) => {
+            const cartItem = cartItems.find(
+              (cartItem) => cartItem.id === item._id
             );
             return (
-              <div key={item?._id} className="cart-item">
+              <div key={item._id} className="cart-item">
                 <div className="cart-item-image-container">
                   <img
-                    src={item?.Image}
-                    alt={item?.name}
+                    src={item.image} // Adjusted to use 'image' instead of 'Image'
+                    alt={item.name}
                     className="cart-item-image"
                   />
                 </div>
@@ -111,20 +106,20 @@ const Cart = () => {
                   <p>{item?.description}</p>
                   <div className="cart-item-row">
                     <div className="cart-item-quantity">
-                      <button onClick={() => handleDecrement(item?._id)}>
+                      <button onClick={() => handleDecrement(item._id)}>
                         -
                       </button>
                       <span>{cartItem?.quantity ?? 0}</span>
-                      <button onClick={() => handleIncrement(item?._id)}>
+                      <button onClick={() => handleIncrement(item._id)}>
                         +
                       </button>
                     </div>
                     <p className="cart-item-price">
-                      ₹ {item?.price * (cartItem?.quantity ?? 0)}
+                      ₹ {item.price * (cartItem?.quantity ?? 0)}
                     </p>
                     <div className="remove-btn-container">
                       <button
-                        onClick={() => handleRemove(item?._id)}
+                        onClick={() => handleRemove(item._id)}
                         className="remove-button"
                       >
                         Remove

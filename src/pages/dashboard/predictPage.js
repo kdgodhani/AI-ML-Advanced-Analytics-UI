@@ -10,8 +10,11 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+let { getPredictProduct } = require("../../features/common/commonSlice");
 
 const PredictiveAnalytics = () => {
+  const dispatch = useDispatch();
   const [predictedData, setPredictedData] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -22,19 +25,22 @@ const PredictiveAnalytics = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      // Simulating response from the backend
-      let response = {
-        _id: "667a58e86d3b79acb4f0ab43",
-        name: "Fashion-57632658",
-        description:
-          "The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients",
-        price: 7,
-        quantity: 42,
-        category: "Fashion",
-        seller_name: "Annamarie_Hickle17",
-      };
+      // let response = {
+      //   _id: "667a58e86d3b79acb4f0ab43",
+      //   name: "Fashion-57632658",
+      //   description:
+      //     "The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients",
+      //   price: 7,
+      //   quantity: 42,
+      //   category: "Fashion",
+      //   seller_name: "Annamarie_Hickle17",
+      // };
+      let response = await dispatch(getPredictProduct());
 
-      setPredictedData(response);
+      // response.payload = null;
+
+      let result = response.payload.data;
+      setPredictedData(result);
     } catch (error) {
       console.error("Error fetching predicted data:", error);
     } finally {

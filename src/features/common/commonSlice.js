@@ -6,6 +6,7 @@ const initialState = {
   isLoading: false,
   error: null,
   reportData: {},
+  predictProduct: null,
 };
 
 export const getReportData = createAsyncThunk(
@@ -22,14 +23,11 @@ export const getReportData = createAsyncThunk(
   }
 );
 
-export const getProductById = createAsyncThunk(
-  "common/fetchProductById",
-  async (productId, thunkAPI) => {
-    console.log(getProductById, "getProductById");
+export const getPredictProduct = createAsyncThunk(
+  "common/getPredictProduct",
+  async (_, thunkAPI) => {
     try {
-      const resp = await customFetch.get(
-        `product/getById?productId=${productId}`
-      );
+      const resp = await customFetch.get("user/admin/report/predictProduct");
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -66,31 +64,16 @@ const commonSlice = createSlice({
         );
       })
 
-      //   .addCase(createPurchaseOrder.pending, (state) => {
-      //     state.isLoading = true;
-      //   })
-      //   .addCase(createPurchaseOrder.fulfilled, (state, { payload }) => {
-      //     state.isLoading = false;
-      //     // toast.success("Purchase Order Created Successfully");
-      //   })
-      //   .addCase(createPurchaseOrder.rejected, (state, { payload }) => {
-      //     state.isLoading = false;
-      //     // state.error = payload;
-      //     toast.error(
-      //       payload && payload.message ? payload.message : "Server Error"
-      //     );
-      //   })
-
-      .addCase(getProductById.pending, (state) => {
+      .addCase(getPredictProduct.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getProductById.fulfilled, (state, { payload }) => {
+      .addCase(getPredictProduct.fulfilled, (state, { payload }) => {
         console.log(state, "common slice - 87");
         state.isLoading = false;
-        state.productData = payload.data;
+        state.predictProduct = payload.data;
         // state.totalProducts = payload.data.length;
       })
-      .addCase(getProductById.rejected, (state, { payload }) => {
+      .addCase(getPredictProduct.rejected, (state, { payload }) => {
         state.isLoading = false;
         // state.error = payload;
         toast.error(

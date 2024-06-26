@@ -8,25 +8,31 @@ import { MdOutlineAddBox } from "react-icons/md";
 const links = [
   {
     id: 1,
-    text: "Report Dashboard",
+    text: "Txn Report",
     path: "report-dashboard",
     icon: <FaProjectDiagram />,
   },
   {
     id: 2,
-    text: "Analytics",
+    text: " Txn Chart Report",
+    path: "chart-report",
+    icon: <FaProjectDiagram />,
+  },
+  {
+    id: 3,
+    text: "ML Analytics",
     path: "analytics",
     icon: <FaTasks />,
   },
-  { id: 3, text: "Url Generate", path: "url-generate", icon: <ImProfile /> },
+  { id: 4, text: "Url Generate", path: "url-generate", icon: <ImProfile /> },
   {
-    id: 4,
+    id: 5,
     text: "Product",
     path: "product",
     icon: <MdOutlineAddBox />,
   },
   {
-    id: 4,
+    id: 6,
     text: "Cart",
     path: "cart",
     icon: <IoBarChartSharp />,

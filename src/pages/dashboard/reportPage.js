@@ -1,474 +1,366 @@
 import React, { useState, useEffect } from "react";
-import { BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
+import { DataGrid } from "@mui/x-data-grid";
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  TextField,
+  Button,
+} from "@mui/material";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-// let {fetchReportData} = require(../model/data)
-
-let data =  {
-    "sales_volume": 197,
-    "payment_method": [
-        {
-            "count": 7,
-            "totalSaleByPayMethod": 81,
-            "paymentMethod": "Credit Card"
-        },
-        {
-            "count": 5,
-            "totalSaleByPayMethod": 43,
-            "paymentMethod": "COD"
-        },
-        {
-            "count": 4,
-            "totalSaleByPayMethod": 44,
-            "paymentMethod": "Debit Card"
-        },
-        {
-            "count": 3,
-            "totalSaleByPayMethod": 29,
-            "paymentMethod": "UPI"
-        }
-    ],
-    "txn_status": [
-        {
-            "count": 19,
-            "paymentStatus": "Success"
-        },
-        {
-            "count": 11,
-            "paymentStatus": "Pending"
-        },
-        {
-            "count": 11,
-            "paymentStatus": "Failed"
-        }
-    ],
-    "txn_data": [
-        {
-            "txn_amount": 15,
-            "txn_status": "Success",
-            "payment_method": "Debit Card",
-            "txn_id": "667a59200e02e9f7ffd77b00",
-            "txn_date": "2024-06-24T14:02:58.175Z",
-            "order_id": "667a59200e02e9f7ffd77afd",
-            "product_id": "667a59200e02e9f7ffd77afa",
-            "product_quantity": 1,
-            "order_status": "Cancelled",
-            "_id": "667a59200e02e9f7ffd77afa",
-            "name": "Beauty-497268112",
-            "price": 15,
-            "quantity": 12,
-            "category": "Beauty",
-            "seller_name": "Clovis84",
-            "reviews": []
-        },
-        {
-            "txn_amount": 15,
-            "txn_status": "Success",
-            "payment_method": "Credit Card",
-            "txn_id": "667a59200e02e9f7ffd77b06",
-            "txn_date": "2024-06-24T05:59:52.646Z",
-            "order_id": "667a59200e02e9f7ffd77b03",
-            "product_id": "667a59200e02e9f7ffd77afa",
-            "product_quantity": 1,
-            "order_status": "Pending",
-            "_id": "667a59200e02e9f7ffd77afa",
-            "name": "Beauty-497268112",
-            "price": 15,
-            "quantity": 12,
-            "category": "Beauty",
-            "seller_name": "Clovis84",
-            "reviews": []
-        },
-        {
-            "txn_amount": 15,
-            "txn_status": "Success",
-            "payment_method": "COD",
-            "txn_id": "667a59200e02e9f7ffd77b0c",
-            "txn_date": "2024-06-24T21:59:09.254Z",
-            "order_id": "667a59200e02e9f7ffd77b09",
-            "product_id": "667a59200e02e9f7ffd77afa",
-            "product_quantity": 1,
-            "order_status": "Pending",
-            "_id": "667a59200e02e9f7ffd77afa",
-            "name": "Beauty-497268112",
-            "price": 15,
-            "quantity": 12,
-            "category": "Beauty",
-            "seller_name": "Clovis84",
-            "reviews": []
-        },
-        {
-            "txn_amount": 15,
-            "txn_status": "Success",
-            "payment_method": "Credit Card",
-            "txn_id": "667a59200e02e9f7ffd77b36",
-            "txn_date": "2024-06-24T09:51:04.876Z",
-            "order_id": "667a59200e02e9f7ffd77b33",
-            "product_id": "667a59200e02e9f7ffd77afa",
-            "product_quantity": 1,
-            "order_status": "Pending",
-            "_id": "667a59200e02e9f7ffd77afa",
-            "name": "Beauty-497268112",
-            "price": 15,
-            "quantity": 12,
-            "category": "Beauty",
-            "seller_name": "Clovis84",
-            "reviews": []
-        },
-        {
-            "txn_amount": 15,
-            "txn_status": "Success",
-            "payment_method": "UPI",
-            "txn_id": "667a59200e02e9f7ffd77b4e",
-            "txn_date": "2024-06-24T19:55:48.737Z",
-            "order_id": "667a59200e02e9f7ffd77b4b",
-            "product_id": "667a59200e02e9f7ffd77afa",
-            "product_quantity": 1,
-            "order_status": "Pending",
-            "_id": "667a59200e02e9f7ffd77afa",
-            "name": "Beauty-497268112",
-            "price": 15,
-            "quantity": 12,
-            "category": "Beauty",
-            "seller_name": "Clovis84",
-            "reviews": []
-        },
-        {
-            "txn_amount": 15,
-            "txn_status": "Success",
-            "payment_method": "Credit Card",
-            "txn_id": "667a59200e02e9f7ffd77b5a",
-            "txn_date": "2024-06-24T22:44:11.784Z",
-            "order_id": "667a59200e02e9f7ffd77b57",
-            "product_id": "667a59200e02e9f7ffd77afa",
-            "product_quantity": 1,
-            "order_status": "Cancelled",
-            "_id": "667a59200e02e9f7ffd77afa",
-            "name": "Beauty-497268112",
-            "price": 15,
-            "quantity": 12,
-            "category": "Beauty",
-            "seller_name": "Clovis84",
-            "reviews": []
-        },
-        {
-            "txn_amount": 15,
-            "txn_status": "Success",
-            "payment_method": "Credit Card",
-            "txn_id": "667a59200e02e9f7ffd77b66",
-            "txn_date": "2024-06-24T23:22:10.585Z",
-            "order_id": "667a59200e02e9f7ffd77b63",
-            "product_id": "667a59200e02e9f7ffd77afa",
-            "product_quantity": 1,
-            "order_status": "Pending",
-            "_id": "667a59200e02e9f7ffd77afa",
-            "name": "Beauty-497268112",
-            "price": 15,
-            "quantity": 12,
-            "category": "Beauty",
-            "seller_name": "Clovis84",
-            "reviews": []
-        },
-        {
-            "txn_amount": 15,
-            "txn_status": "Success",
-            "payment_method": "Debit Card",
-            "txn_id": "667a59200e02e9f7ffd77b6c",
-            "txn_date": "2024-06-24T21:38:40.389Z",
-            "order_id": "667a59200e02e9f7ffd77b69",
-            "product_id": "667a59200e02e9f7ffd77afa",
-            "product_quantity": 1,
-            "order_status": "Confirmed",
-            "_id": "667a59200e02e9f7ffd77afa",
-            "name": "Beauty-497268112",
-            "price": 15,
-            "quantity": 12,
-            "category": "Beauty",
-            "seller_name": "Clovis84",
-            "reviews": []
-        },
-        {
-            "txn_amount": 7,
-            "txn_status": "Success",
-            "payment_method": "Credit Card",
-            "txn_id": "667a59260e02e9f7ffd77b80",
-            "txn_date": "2024-06-24T15:19:46.571Z",
-            "order_id": "667a59260e02e9f7ffd77b7d",
-            "product_id": "667a59260e02e9f7ffd77b74",
-            "product_quantity": 1,
-            "order_status": "Cancelled",
-            "_id": "667a59260e02e9f7ffd77b74",
-            "name": "Fashion-132502586",
-            "price": 7,
-            "quantity": 16,
-            "category": "Fashion",
-            "seller_name": "Trudie15",
-            "reviews": []
-        },
-        {
-            "txn_amount": 7,
-            "txn_status": "Success",
-            "payment_method": "COD",
-            "txn_id": "667a59260e02e9f7ffd77b92",
-            "txn_date": "2024-06-24T19:10:11.483Z",
-            "order_id": "667a59260e02e9f7ffd77b8f",
-            "product_id": "667a59260e02e9f7ffd77b74",
-            "product_quantity": 1,
-            "order_status": "Pending",
-            "_id": "667a59260e02e9f7ffd77b74",
-            "name": "Fashion-132502586",
-            "price": 7,
-            "quantity": 16,
-            "category": "Fashion",
-            "seller_name": "Trudie15",
-            "reviews": []
-        },
-        {
-            "txn_amount": 7,
-            "txn_status": "Success",
-            "payment_method": "Credit Card",
-            "txn_id": "667a59260e02e9f7ffd77b98",
-            "txn_date": "2024-06-24T19:45:57.368Z",
-            "order_id": "667a59260e02e9f7ffd77b95",
-            "product_id": "667a59260e02e9f7ffd77b74",
-            "product_quantity": 1,
-            "order_status": "Cancelled",
-            "_id": "667a59260e02e9f7ffd77b74",
-            "name": "Fashion-132502586",
-            "price": 7,
-            "quantity": 16,
-            "category": "Fashion",
-            "seller_name": "Trudie15",
-            "reviews": []
-        },
-        {
-            "txn_amount": 7,
-            "txn_status": "Success",
-            "payment_method": "COD",
-            "txn_id": "667a59260e02e9f7ffd77bb0",
-            "txn_date": "2024-06-24T20:57:11.396Z",
-            "order_id": "667a59260e02e9f7ffd77bad",
-            "product_id": "667a59260e02e9f7ffd77b74",
-            "product_quantity": 1,
-            "order_status": "Pending",
-            "_id": "667a59260e02e9f7ffd77b74",
-            "name": "Fashion-132502586",
-            "price": 7,
-            "quantity": 16,
-            "category": "Fashion",
-            "seller_name": "Trudie15",
-            "reviews": []
-        },
-        {
-            "txn_amount": 7,
-            "txn_status": "Success",
-            "payment_method": "COD",
-            "txn_id": "667a59260e02e9f7ffd77bb6",
-            "txn_date": "2024-06-24T09:39:31.521Z",
-            "order_id": "667a59260e02e9f7ffd77bb3",
-            "product_id": "667a59260e02e9f7ffd77b74",
-            "product_quantity": 1,
-            "order_status": "Pending",
-            "_id": "667a59260e02e9f7ffd77b74",
-            "name": "Fashion-132502586",
-            "price": 7,
-            "quantity": 16,
-            "category": "Fashion",
-            "seller_name": "Trudie15",
-            "reviews": []
-        },
-        {
-            "txn_amount": 7,
-            "txn_status": "Success",
-            "payment_method": "Credit Card",
-            "txn_id": "667a59260e02e9f7ffd77bbc",
-            "txn_date": "2024-06-24T23:55:47.646Z",
-            "order_id": "667a59260e02e9f7ffd77bb9",
-            "product_id": "667a59260e02e9f7ffd77b74",
-            "product_quantity": 1,
-            "order_status": "Pending",
-            "_id": "667a59260e02e9f7ffd77b74",
-            "name": "Fashion-132502586",
-            "price": 7,
-            "quantity": 16,
-            "category": "Fashion",
-            "seller_name": "Trudie15",
-            "reviews": []
-        },
-        {
-            "txn_amount": 7,
-            "txn_status": "Success",
-            "payment_method": "Debit Card",
-            "txn_id": "667a59260e02e9f7ffd77bc2",
-            "txn_date": "2024-06-24T18:15:43.031Z",
-            "order_id": "667a59260e02e9f7ffd77bbf",
-            "product_id": "667a59260e02e9f7ffd77b74",
-            "product_quantity": 1,
-            "order_status": "Pending",
-            "_id": "667a59260e02e9f7ffd77b74",
-            "name": "Fashion-132502586",
-            "price": 7,
-            "quantity": 16,
-            "category": "Fashion",
-            "seller_name": "Trudie15",
-            "reviews": []
-        },
-        {
-            "txn_amount": 7,
-            "txn_status": "Success",
-            "payment_method": "UPI",
-            "txn_id": "667a59260e02e9f7ffd77bc8",
-            "txn_date": "2024-06-24T10:32:57.856Z",
-            "order_id": "667a59260e02e9f7ffd77bc5",
-            "product_id": "667a59260e02e9f7ffd77b74",
-            "product_quantity": 1,
-            "order_status": "Pending",
-            "_id": "667a59260e02e9f7ffd77b74",
-            "name": "Fashion-132502586",
-            "price": 7,
-            "quantity": 16,
-            "category": "Fashion",
-            "seller_name": "Trudie15",
-            "reviews": []
-        },
-        {
-            "txn_amount": 7,
-            "txn_status": "Success",
-            "payment_method": "Debit Card",
-            "txn_id": "667a59260e02e9f7ffd77bce",
-            "txn_date": "2024-06-25T00:17:28.261Z",
-            "order_id": "667a59260e02e9f7ffd77bcb",
-            "product_id": "667a59260e02e9f7ffd77b74",
-            "product_quantity": 1,
-            "order_status": "Cancelled",
-            "_id": "667a59260e02e9f7ffd77b74",
-            "name": "Fashion-132502586",
-            "price": 7,
-            "quantity": 16,
-            "category": "Fashion",
-            "seller_name": "Trudie15",
-            "reviews": []
-        },
-        {
-            "txn_amount": 7,
-            "txn_status": "Success",
-            "payment_method": "UPI",
-            "txn_id": "667a59260e02e9f7ffd77be0",
-            "txn_date": "2024-06-24T06:14:22.832Z",
-            "order_id": "667a59260e02e9f7ffd77bdd",
-            "product_id": "667a59260e02e9f7ffd77b74",
-            "product_quantity": 1,
-            "order_status": "Confirmed",
-            "_id": "667a59260e02e9f7ffd77b74",
-            "name": "Fashion-132502586",
-            "price": 7,
-            "quantity": 16,
-            "category": "Fashion",
-            "seller_name": "Trudie15",
-            "reviews": []
-        },
-        {
-            "txn_amount": 7,
-            "txn_status": "Success",
-            "payment_method": "COD",
-            "txn_id": "667a59260e02e9f7ffd77be6",
-            "txn_date": "2024-06-24T11:00:56.589Z",
-            "order_id": "667a59260e02e9f7ffd77be3",
-            "product_id": "667a59260e02e9f7ffd77b74",
-            "product_quantity": 1,
-            "order_status": "Pending",
-            "_id": "667a59260e02e9f7ffd77b74",
-            "name": "Fashion-132502586",
-            "price": 7,
-            "quantity": 16,
-            "category": "Fashion",
-            "seller_name": "Trudie15",
-            "reviews": []
-        }
-    ]
-}
-
-const ReportDashboard = () => {
-  const [reportData, setReportData] = useState(null);
+let result = [
+  {
+    txn_amount: 15,
+    txn_status: "Success",
+    payment_method: "Credit Card",
+    txn_id: "667a59200e02e9f7ffd77b06",
+    txn_date: "2024-06-24T05:59:52.646Z",
+    order_id: "667a59200e02e9f7ffd77b03",
+    product_id: "667a59200e02e9f7ffd77afa",
+    product_quantity: 1,
+    order_status: "Pending",
+    _id: "667a59200e02e9f7ffd77afa",
+    name: "Beauty-497268112",
+    price: 15,
+    quantity: 12,
+    category: "Beauty",
+    seller_name: "Clovis84",
+    reviews: [],
+  },
+  {
+    txn_amount: 15,
+    txn_status: "Success",
+    payment_method: "COD",
+    txn_id: "667a59200e02e9f7ffd77b0c",
+    txn_date: "2024-06-24T21:59:09.254Z",
+    order_id: "667a59200e02e9f7ffd77b09",
+    product_id: "667a59200e02e9f7ffd77afa",
+    product_quantity: 1,
+    order_status: "Pending",
+    _id: "667a59200e02e9f7ffd77afa",
+    name: "Beauty-497268112",
+    price: 15,
+    quantity: 12,
+    category: "Beauty",
+    seller_name: "Clovis84",
+    reviews: [],
+  },
+  {
+    txn_amount: 15,
+    txn_status: "Success",
+    payment_method: "Credit Card",
+    txn_id: "667a59200e02e9f7ffd77b36",
+    txn_date: "2024-06-24T09:51:04.876Z",
+    order_id: "667a59200e02e9f7ffd77b33",
+    product_id: "667a59200e02e9f7ffd77afa",
+    product_quantity: 1,
+    order_status: "Pending",
+    _id: "667a59200e02e9f7ffd77afa",
+    name: "Beauty-497268112",
+    price: 15,
+    quantity: 12,
+    category: "Beauty",
+    seller_name: "Clovis84",
+    reviews: [],
+  },
+  {
+    txn_amount: 15,
+    txn_status: "Success",
+    payment_method: "UPI",
+    txn_id: "667a59200e02e9f7ffd77b4e",
+    txn_date: "2024-06-24T19:55:48.737Z",
+    order_id: "667a59200e02e9f7ffd77b4b",
+    product_id: "667a59200e02e9f7ffd77afa",
+    product_quantity: 1,
+    order_status: "Pending",
+    _id: "667a59200e02e9f7ffd77afa",
+    name: "Beauty-497268112",
+    price: 15,
+    quantity: 12,
+    category: "Beauty",
+    seller_name: "Clovis84",
+    reviews: [],
+  },
+  {
+    txn_amount: 7,
+    txn_status: "Success",
+    payment_method: "COD",
+    txn_id: "667a59260e02e9f7ffd77b92",
+    txn_date: "2024-06-24T19:10:11.483Z",
+    order_id: "667a59260e02e9f7ffd77b8f",
+    product_id: "667a59260e02e9f7ffd77b74",
+    product_quantity: 1,
+    order_status: "Pending",
+    _id: "667a59260e02e9f7ffd77b74",
+    name: "Fashion-132502586",
+    price: 7,
+    quantity: 16,
+    category: "Fashion",
+    seller_name: "Trudie15",
+    reviews: [],
+  },
+  {
+    txn_amount: 7,
+    txn_status: "Success",
+    payment_method: "Credit Card",
+    txn_id: "667a59260e02e9f7ffd77b98",
+    txn_date: "2024-06-24T19:45:57.368Z",
+    order_id: "667a59260e02e9f7ffd77b95",
+    product_id: "667a59260e02e9f7ffd77b74",
+    product_quantity: 1,
+    order_status: "Cancelled",
+    _id: "667a59260e02e9f7ffd77b74",
+    name: "Fashion-132502586",
+    price: 7,
+    quantity: 16,
+    category: "Fashion",
+    seller_name: "Trudie15",
+    reviews: [],
+  },
+  {
+    txn_amount: 6,
+    txn_status: "Success",
+    payment_method: "UPI",
+    txn_id: "667ab58e6a6169ad02e7149b",
+    txn_date: "2024-06-25T05:52:41.592Z",
+    order_id: "667ab58e6a6169ad02e71498",
+    product_id: "667ab58e6a6169ad02e7148f",
+    product_quantity: 1,
+    order_status: "Confirmed",
+    _id: "667ab58e6a6169ad02e7148f",
+    name: "Mobiles-137756581",
+    price: 6,
+    quantity: 25,
+    category: "Mobiles",
+    seller_name: "Glen_Nitzsche",
+    reviews: [],
+  },
+  {
+    txn_amount: 6,
+    txn_status: "Success",
+    payment_method: "Debit Card",
+    txn_id: "667ab58e6a6169ad02e714ad",
+    txn_date: "2024-06-25T09:15:30.194Z",
+    order_id: "667ab58e6a6169ad02e714aa",
+    product_id: "667ab58e6a6169ad02e7148f",
+    product_quantity: 1,
+    order_status: "Pending",
+    _id: "667ab58e6a6169ad02e7148f",
+    name: "Mobiles-137756581",
+    price: 6,
+    quantity: 25,
+    category: "Mobiles",
+    seller_name: "Glen_Nitzsche",
+    reviews: [],
+  },
+];
+const TxnReport = () => {
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [filters, setFilters] = useState({
+    order_status: "",
+    txn_status: "",
+    payment_method: "",
+    category: "",
+    txn_from_date: "",
+    txn_to_date: "",
+  });
 
   useEffect(() => {
+    // Fetch data from API when the component mounts
     const fetchData = async () => {
-        // const response = await fetchReportData();
-    //   setReportData(response.data);
-      setReportData(data);
+      try {
+        // const response = await fetch('API_ENDPOINT');
+        // const result = await response.json();
+        setData(result);
+        setFilteredData(result);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
+
     fetchData();
   }, []);
 
-  if (!reportData) {
-    return <div>Loading report data...</div>;
-  }
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters({ ...filters, [name]: value });
+  };
 
-  const { sales_volume, payment_method, txn_status, txn_data } = reportData;
+  const applyFilters = () => {
+    let filtered = [...data];
 
-  // Process data for payment method chart
-  const paymentMethodChartData = payment_method.map((method) => ({
-    name: method.paymentMethod,
-    success_txn: method.count,
-    sales$: method.totalSaleByPayMethod,
-  }));
+    if (filters.order_status) {
+      filtered = filtered.filter(
+        (item) => item.order_status === filters.order_status
+      );
+    }
+    if (filters.txn_status) {
+      filtered = filtered.filter(
+        (item) => item.txn_status === filters.txn_status
+      );
+    }
+    if (filters.payment_method) {
+      filtered = filtered.filter(
+        (item) => item.payment_method === filters.payment_method
+      );
+    }
+    if (filters.category) {
+      filtered = filtered.filter((item) => item.category === filters.category);
+    }
+    if (filters.txn_from_date) {
+      filtered = filtered.filter(
+        (item) => new Date(item.txn_date) >= new Date(filters.txn_from_date)
+      );
+    }
+    if (filters.txn_to_date) {
+      filtered = filtered.filter(
+        (item) => new Date(item.txn_date) <= new Date(filters.txn_to_date)
+      );
+    }
 
-  // Process data for transaction status chart
-  const transactionStatusChartData = txn_status.map((status) => ({
-    name: status.paymentStatus,
-    count: status.count,
-  }));
+    setFilteredData(filtered);
+    toast.success("Filters applied successfully");
+  };
 
-  // Process data for category-wise chart
-  const categoryData = ["Electronics", "Mobiles", "Fashion", "Beauty"];
-  const categoryChartData = categoryData.map((category) => {
-    const filteredData = txn_data.filter((txn) => txn.category === category);
-    const totalQuantity = filteredData.reduce((acc, txn) => acc + txn.product_quantity, 0);
-    const totalAmount = filteredData.reduce((acc, txn) => acc + txn.txn_amount, 0);
-    return {
-      category,
-      totalQuantity,
-      totalAmount,
-    };
-  });
+  const clearFilters = () => {
+    setFilters({
+      order_status: "",
+      txn_status: "",
+      payment_method: "",
+      category: "",
+      txn_from_date: "",
+      txn_to_date: "",
+    });
+    setFilteredData(data);
+  };
+
+  const columns = [
+    { field: "txn_id", headerName: "Transaction ID", width: 150 },
+    { field: "txn_amount", headerName: "Amount", width: 100 },
+    { field: "txn_status", headerName: "Transaction Status", width: 150 },
+    { field: "payment_method", headerName: "Payment Method", width: 150 },
+    { field: "txn_date", headerName: "Transaction Date", width: 200 },
+    { field: "order_id", headerName: "Order ID", width: 150 },
+    { field: "product_id", headerName: "Product ID", width: 150 },
+    { field: "product_quantity", headerName: "Product Quantity", width: 150 },
+    { field: "order_status", headerName: "Order Status", width: 150 },
+    { field: "name", headerName: "Product Name", width: 200 },
+    { field: "price", headerName: "Price", width: 100 },
+    { field: "category", headerName: "Category", width: 150 },
+    { field: "seller_name", headerName: "Seller Name", width: 150 },
+  ];
 
   return (
-    <div className="report-container">
-      <h2>Transaction Report</h2>
-      <div className="report-section">
-        <h3>Sales Volume</h3>
-        <p>Total Sales: ${sales_volume}</p>
+    <Box p={3}>
+      <Box mb={3} display="flex" gap={2} flexWrap="wrap">
+        <FormControl variant="outlined" style={{ minWidth: 200 }}>
+          <InputLabel>Order Status</InputLabel>
+          <Select
+            name="order_status"
+            value={filters.order_status}
+            onChange={handleFilterChange}
+            label="Order Status"
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value="Pending">Pending</MenuItem>
+            <MenuItem value="Confirmed">Confirmed</MenuItem>
+            <MenuItem value="Cancelled">Cancelled</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl variant="outlined" style={{ minWidth: 200 }}>
+          <InputLabel>Transaction Status</InputLabel>
+          <Select
+            name="txn_status"
+            value={filters.txn_status}
+            onChange={handleFilterChange}
+            label="Transaction Status"
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value="Success">Success</MenuItem>
+            <MenuItem value="Failed">Failed</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl variant="outlined" style={{ minWidth: 200 }}>
+          <InputLabel>Payment Method</InputLabel>
+          <Select
+            name="payment_method"
+            value={filters.payment_method}
+            onChange={handleFilterChange}
+            label="Payment Method"
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value="Credit Card">Credit Card</MenuItem>
+            <MenuItem value="Debit Card">Debit Card</MenuItem>
+            <MenuItem value="UPI">UPI</MenuItem>
+            <MenuItem value="COD">COD</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl variant="outlined" style={{ minWidth: 200 }}>
+          <InputLabel>Category</InputLabel>
+          <Select
+            name="category"
+            value={filters.category}
+            onChange={handleFilterChange}
+            label="Category"
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value="Beauty">Beauty</MenuItem>
+            <MenuItem value="Fashion">Fashion</MenuItem>
+            <MenuItem value="Mobiles">Mobiles</MenuItem>
+          </Select>
+        </FormControl>
+        <TextField
+          label="From Date"
+          type="date"
+          name="txn_from_date"
+          value={filters.txn_from_date}
+          onChange={handleFilterChange}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <TextField
+          label="To Date"
+          type="date"
+          name="txn_to_date"
+          value={filters.txn_to_date}
+          onChange={handleFilterChange}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <Button variant="contained" color="primary" onClick={applyFilters}>
+          Apply Filters
+        </Button>
+        <Button variant="contained" color="secondary" onClick={clearFilters}>
+          Clear Filters
+        </Button>
+      </Box>
+      <div style={{ height: 600, width: "100%" }}>
+        <DataGrid
+          rows={filteredData}
+          columns={columns}
+          getRowId={(row) => row.txn_id}
+          pageSize={10}
+          rowsPerPageOptions={[10, 20, 50]}
+          checkboxSelection
+        />
       </div>
-      <div className="report-section">
-        <h3>Category-wise Product Quantity and Transaction Amount</h3>
-        <BarChart width={700} height={300} data={categoryChartData}>
-          <XAxis dataKey="category" />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey="totalQuantity" fill="#8884d8" />
-          <Bar dataKey="totalAmount" stackId="a" fill="#82ca9d" />
-        </BarChart>
-      </div>
-      <div className="report-section">
-        <h3>Payment Methods</h3>
-        <BarChart width={700} height={300} data={paymentMethodChartData}>
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey="success_txn" fill="#8884d8" />
-          <Bar dataKey="sales$" stackId="a" fill="#ffc107" />
-        </BarChart>
-      </div>
-      <div className="report-section">
-        <h3>Transaction Status</h3>
-        <BarChart width={500} height={300} data={transactionStatusChartData}>
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey="count" fill="#ffc107" />
-        </BarChart>
-      </div>
-    </div>
+    </Box>
   );
 };
 
-export default ReportDashboard;
+export default TxnReport;

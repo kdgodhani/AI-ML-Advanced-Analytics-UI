@@ -48,7 +48,12 @@ const PredictiveAnalytics = () => {
         <p>Loading...</p>
       ) : predictedData ? (
         <div>
-          <h2>Predicted Product Data</h2>
+          <h2>ML Predicted Product Data</h2>
+          <p>
+            Based on txn report data ML model forecasting with diffrent
+            parameter like category, txn_status(Success), price, purchase
+            quantity based on that suggest Future Product .!
+          </p>
           <ResponsiveContainer width="100%" height={400}>
             <BarChart data={[predictedData]}>
               <CartesianGrid strokeDasharray="3 3" />

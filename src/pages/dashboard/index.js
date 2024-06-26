@@ -6,6 +6,7 @@ import ChartReport from "./reportChartPage.js";
 import PredictiveAnalytics from "./predictPage.js";
 import UrlGenerate from "./urlGeneratePage.js";
 import Cart from "./cartPage.js";
+import Order from "./order.js";
 
 export {
   SharedLayout,
@@ -15,4 +16,5 @@ export {
   UrlGenerate,
   Cart,
   ChartReport,
+  Order,
 };

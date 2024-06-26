@@ -27,12 +27,18 @@ const links = [
   { id: 4, text: "Url Generate", path: "url-generate", icon: <ImProfile /> },
   {
     id: 5,
+    text: "Txn Done Orders",
+    path: "order",
+    icon: <IoBarChartSharp />,
+  },
+  {
+    id: 6,
     text: "Product",
     path: "product",
     icon: <MdOutlineAddBox />,
   },
   {
-    id: 6,
+    id: 7,
     text: "Cart",
     path: "cart",
     icon: <IoBarChartSharp />,

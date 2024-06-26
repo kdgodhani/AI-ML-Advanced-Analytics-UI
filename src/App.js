@@ -11,6 +11,7 @@ import {
   UrlGenerate,
   Cart,
   ChartReport,
+  Order,
 } from "./pages/dashboard";
 
 import { CheckoutPage, Failed, SecureLink, Success } from "./pages/payment";
@@ -63,6 +64,15 @@ const MainLayout = () => {
             element={
               <ProtectedRoute roles={["Admin"]}>
                 <UrlGenerate />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="order"
+            element={
+              <ProtectedRoute roles={["Admin", "Customer"]}>
+                <Order />
               </ProtectedRoute>
             }
           />

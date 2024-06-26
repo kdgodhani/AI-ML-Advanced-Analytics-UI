@@ -11,6 +11,7 @@ const initialState = {
   secureLink: "",
   paymentLink: "",
   paymentCheckoutData: {},
+  txnDoneOrder: [],
 };
 
 export const getReportData = createAsyncThunk(
@@ -49,6 +50,20 @@ export const getAllPendingOrder = createAsyncThunk(
       return resp.data;
     } catch (error) {
       console.log(error, "error - slice -48");
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
+export const getTxnDoneOrder = createAsyncThunk(
+  "common/getTxnDoneOrder",
+  async (_, thunkAPI) => {
+    try {
+      const resp = await customFetch.get("order/getTxnDoneOrder");
+      return resp.data;
+    } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response ? error.response.data : error.message
       );
@@ -253,6 +268,22 @@ const commonSlice = createSlice({
           payload && payload.message
             ? payload.message
             : "Failed to update order status"
+        );
+      })
+
+      .addCase(getTxnDoneOrder.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getTxnDoneOrder.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.txnDoneOrder = payload.data;
+        // state.totalProducts = payload.data.length;
+      })
+      .addCase(getTxnDoneOrder.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        // state.error = payload;
+        toast.error(
+          payload && payload.message ? payload.message : "Server Error"
         );
       });
   },

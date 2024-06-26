@@ -3,7 +3,7 @@ import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
 import Wrapper from "../../assets/wrappers/PaymentPages";
 
-const Failed = () => {
+const SecureLink = () => {
   const [modalIsOpen, setModalIsOpen] = useState(true);
   const navigate = useNavigate();
 
@@ -38,4 +38,4 @@ const Failed = () => {
   );
 };
 
-export default Failed;
+export default SecureLink;

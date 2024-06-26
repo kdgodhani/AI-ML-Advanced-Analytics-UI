@@ -7,8 +7,8 @@ export const removeUserFromLocalStorage = () => {
 };
 
 export const getUserFromLocalStorage = () => {
-  const result = localStorage.getItem('user');
-  console.log(result, "this is result -- 10");
+  const result = localStorage.getItem("user");
+  // console.log(result, "this is result -- 10");
 
   let user;
   if (!result) {
@@ -17,7 +17,7 @@ export const getUserFromLocalStorage = () => {
     try {
       user = JSON.parse(result);
     } catch (error) {
-      console.error('Error parsing JSON from localStorage', error);
+      console.error("Error parsing JSON from localStorage", error);
       user = null;
     }
   }

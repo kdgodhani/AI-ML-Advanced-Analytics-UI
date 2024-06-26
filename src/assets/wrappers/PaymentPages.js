@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Wrapper = styled.main`
+const Wrapper = styled.section`
   .modal {
     position: absolute;
     top: 50%;

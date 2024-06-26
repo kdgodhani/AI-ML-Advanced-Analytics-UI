@@ -8,7 +8,9 @@ const initialState = {
   reportData: {},
   predictProduct: null,
   pendingOrder: [],
+  secureLink: "",
   paymentLink: "",
+  paymentCheckoutData: {},
 };
 
 export const getReportData = createAsyncThunk(
@@ -65,6 +67,57 @@ export const generateSecurePaymentLink = createAsyncThunk(
       return resp.data;
     } catch (error) {
       //   console.log(error, "error - slice -48");
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
+export const verifySecurePaymentLink = createAsyncThunk(
+  "common/verifyLink",
+  async (token, thunkAPI) => {
+    try {
+      const resp = await customFetch.post(
+        `order/payment/verifyLink?token=${token}`
+      );
+      return resp.data;
+    } catch (error) {
+      //   console.log(error, "error - slice -48");
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
+export const paymentCheckout = createAsyncThunk(
+  "common/paymentCheckout",
+  async (productsData, thunkAPI) => {
+    try {
+      const resp = await customFetch.post(
+        `order/payment/checkOut`,
+        productsData
+      );
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
+export const txnStatusUpdate = createAsyncThunk(
+  "common/txnStatusUpdate",
+  async ({ orderId, isSuccess }, thunkAPI) => {
+    try {
+      const resp = await customFetch.post(
+        "order/payment/updateStatusByorderId",
+        { orderId, isSuccess }
+      );
+      return resp.data;
+    } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response ? error.response.data : error.message
       );
@@ -150,12 +203,56 @@ const commonSlice = createSlice({
       })
       .addCase(generateSecurePaymentLink.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        state.paymentLink = payload.data.payment_link;
+        state.secureLink = payload.data.payment_link;
       })
       .addCase(generateSecurePaymentLink.rejected, (state, { payload }) => {
         state.isLoading = false;
         toast.error(
           payload && payload.message ? payload.message : "Server Error"
+        );
+      })
+
+      .addCase(verifySecurePaymentLink.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(verifySecurePaymentLink.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.paymentLink = payload.data.url;
+      })
+      .addCase(verifySecurePaymentLink.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        toast.error(
+          payload && payload.message ? payload.message : "Server Error"
+        );
+      })
+
+      .addCase(paymentCheckout.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(paymentCheckout.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.paymentCheckoutData = payload.data.url;
+      })
+      .addCase(paymentCheckout.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        toast.error(
+          payload && payload.message ? payload.message : "Server Error"
+        );
+      })
+
+      .addCase(txnStatusUpdate.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(txnStatusUpdate.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        toast.success("Order status updated successfully!");
+      })
+      .addCase(txnStatusUpdate.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        toast.error(
+          payload && payload.message
+            ? payload.message
+            : "Failed to update order status"
         );
       });
   },

@@ -1,39 +1,59 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import Wrapper from "../../assets/wrappers/PaymentPages";
+import { verifySecurePaymentLink } from "../../features/common/commonSlice";
+// import { clearCart } from "../../features/cart/cartSlice";
 
 const SecureLink = () => {
-  const [modalIsOpen, setModalIsOpen] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const closeModal = () => {
-    setModalIsOpen(false);
-    navigate("/");
-  };
-
   useEffect(() => {
-    const timer = setTimeout(() => {
-      closeModal();
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, []);
+    const handlePayment = async () => {
+      const token = new URLSearchParams(window.location.search).get("token");
+      if (!token) {
+        console.error("Token not found in URL");
+        return;
+      }
+
+      try {
+        const res = await dispatch(verifySecurePaymentLink(token)).unwrap();
+        if (res.success && res.data.url) {
+          window.location.href = res.data.url;
+        } else {
+          setShowModal(true);
+        }
+      } catch (error) {
+        console.error(
+          "There was an error fetching the payment details!",
+          error
+        );
+        setShowModal(true);
+      }
+    };
+
+    handlePayment();
+  }, [dispatch]);
 
   return (
     <Wrapper>
-      <div className="payment-failure-page">
-        <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={closeModal}
-          contentLabel="Payment Failure"
-          className="modal"
-          overlayClassName="overlay"
-        >
-          <h2>Payment Failed</h2>
-          <p>There was an issue processing your payment. Please try again.</p>
-          <button onClick={closeModal}>Okay</button>
-        </Modal>
+      <div style={{ textAlign: "center" }}>
+        <h2>Proceeding for Payment...</h2>
       </div>
+      <Modal
+        isOpen={showModal}
+        onRequestClose={() => setShowModal(false)}
+        contentLabel="Payment Error"
+      >
+        <h2>Payment Error</h2>
+        <p>
+          We are currently unable to process this order. Please try again later.
+        </p>
+        <button onClick={() => navigate("/")}>Go to Home</button>
+      </Modal>
     </Wrapper>
   );
 };

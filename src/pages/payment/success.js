@@ -1,21 +1,17 @@
-import React, { useEffect, useState, useRef, useMemo } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
 import Wrapper from "../../assets/wrappers/PaymentPages";
-
-// import './PaymentModal.css';
-// import { GenerateOrder } from "../../Services/Orders/orders";
-// import { useDispatch } from "react-redux";
-// import { clearCart } from "../../Redux/Slice/cartSlice";
-// import { GetProductsById } from "../../Services/Product/Product";
-
-// Modal.setAppElement("#root");
+import { useDispatch } from "react-redux";
+import { clearCart } from "../../features/cart/cartSlice";
+import { getProductById } from "../../features/product/productSlice";
+import { txnStatusUpdate } from "../../features/common/commonSlice"; // Import the thunk
 
 const Success = () => {
   const [modalIsOpen, setModalIsOpen] = useState(true);
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
-  // const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+  const dispatch = useDispatch();
+  const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
   const [productDetails, setProductDetails] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const orderGeneratedRef = useRef(false);
@@ -25,86 +21,60 @@ const Success = () => {
     navigate("/");
   };
 
+  const handleClearCart = () => {
+    dispatch(clearCart());
+    localStorage.removeItem("cartItems");
+  };
+
   useEffect(() => {
-    const timer = setTimeout(() => {
-      closeModal();
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, []);
+    const updateTxnStatus = async () => {
+      const orderId = new URLSearchParams(window.location.search).get(
+        "orderId"
+      );
+      await dispatch(txnStatusUpdate({ orderId, isSuccess: true }));
+      handleClearCart();
+      setTimeout(() => {
+        closeModal();
+      }, 3000);
+    };
 
-  // const handleClearCart = () => {
-  //   dispatch(clearCart());
-  //   localStorage.removeItem("cartItems");
-  // };
+    if (!orderGeneratedRef.current) {
+      updateTxnStatus();
+      orderGeneratedRef.current = true;
+    }
+  }, [dispatch]);
 
-  // useEffect(() => {
-  //   const fetchProductDetails = async () => {
-  //     try {
-  //       const productIds = cartItems.map((obj) => obj.id);
-  //       const productDataPromises = productIds.map((productId) =>
-  //         GetProductsById(productId)
-  //       );
-  //       const responses = await Promise.all(productDataPromises);
-  //       const productData = responses.map((response) => response.response);
-  //       setProductDetails(productData);
-  //     } catch (error) {
-  //       console.error("Error fetching product details:", error);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchProductDetails = async () => {
+      try {
+        const productIds = cartItems.map((obj) => obj.id);
+        const productDataPromises = productIds.map((productId) =>
+          getProductById(productId)
+        );
+        const responses = await Promise.all(productDataPromises);
+        const productData = responses.map((response) => response.response);
+        setProductDetails(productData);
+      } catch (error) {
+        console.error("Error fetching product details:", error);
+      }
+    };
 
-  //   if (cartItems.length > 0) {
-  //     fetchProductDetails();
-  //   }
-  // }, [cartItems]);
+    if (cartItems.length > 0) {
+      fetchProductDetails();
+    }
+  }, [cartItems]);
 
-  // useEffect(() => {
-  //   const calculateTotalAmount = () => {
-  //     const total = productDetails.reduce((acc, curr) => {
-  //       const cartItem = cartItems.find((ci) => ci.id === curr?._id);
-  //       return acc + curr?.price * (cartItem?.quantity ?? 0);
-  //     }, 0);
-  //     setTotalAmount(total);
-  //   };
+  useEffect(() => {
+    const calculateTotalAmount = () => {
+      const total = productDetails.reduce((acc, curr) => {
+        const cartItem = cartItems.find((ci) => ci.id === curr?._id);
+        return acc + curr?.price * (cartItem?.quantity ?? 0);
+      }, 0);
+      setTotalAmount(total);
+    };
 
-  //   calculateTotalAmount();
-  // }, [productDetails, cartItems]);
-
-  // const productsData = useMemo(
-  //   () =>
-  //     cartItems.map((item) => ({
-  //       product: item.id,
-  //       quantity: item.quantity,
-  //     })),
-  //   [cartItems]
-  // );
-
-  // const orderData = useMemo(
-  //   () => ({
-  //     products: productsData,
-  //     totalAmount: totalAmount,
-  //     status: "confirmed",
-  //   }),
-  //   [productsData, totalAmount]
-  // );
-
-  // useEffect(() => {
-  //   if (totalAmount > 0) {
-  //     const generateOrders = async () => {
-  //       try {
-  //         console.log("called");
-  //         await GenerateOrder(orderData);
-  //         handleClearCart();
-  //         orderGeneratedRef.current = true;
-  //       } catch (error) {
-  //         console.error("Error generating orders:", error);
-  //       }
-  //     };
-
-  //     if (productDetails.length > 0 && !orderGeneratedRef.current) {
-  //       generateOrders();
-  //     }
-  //   }
-  // }, [totalAmount]);
+    calculateTotalAmount();
+  }, [productDetails, cartItems]);
 
   return (
     <Wrapper>

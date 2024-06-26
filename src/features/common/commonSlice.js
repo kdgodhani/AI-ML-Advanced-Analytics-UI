@@ -49,7 +49,7 @@ export const getAllPendingOrder = createAsyncThunk(
       const resp = await customFetch.get("order/getAllPendingOrders");
       return resp.data;
     } catch (error) {
-      console.log(error, "error - slice -48");
+      //   console.log(error, "error - slice -48");
       return thunkAPI.rejectWithValue(
         error.response ? error.response.data : error.message
       );
@@ -75,7 +75,7 @@ export const generateSecurePaymentLink = createAsyncThunk(
   "common/generateLink",
   async (orderId, thunkAPI) => {
     try {
-      console.log(orderId, "orderId");
+      //   console.log(orderId, "orderId");
       const resp = await customFetch.post(
         `order/payment/generateLink?orderId=${orderId}`
       );
@@ -168,7 +168,7 @@ const commonSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getReportData.fulfilled, (state, { payload }) => {
-        console.log(payload, " this is payload in common - 57");
+        // console.log(payload, " this is payload in common - 57");
         state.isLoading = false;
         state.reportData = payload.data;
         // state.totalProducts = payload.data.length;

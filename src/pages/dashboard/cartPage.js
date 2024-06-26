@@ -45,11 +45,10 @@ const Cart = () => {
         );
         const responses = await Promise.all(productDataPromises);
         const productData = responses.map(
-          (response) => response.payload.data[0]
+          (response) => response.payload?.data[0]
         );
 
-        console.log(productData, "this is product data - 46");
-        setProducts(productData);
+        setProducts(productData.filter((product) => product !== undefined));
       } catch (error) {
         console.error("There was an error fetching the products!", error);
       }
@@ -96,7 +95,7 @@ const Cart = () => {
               const cartItem = cartItems.find(
                 (cartItem) => cartItem.id === item._id
               );
-              return (
+              return cartItem ? (
                 <div key={item._id} className="cart-item">
                   <div className="cart-item-image-container">
                     <img
@@ -113,13 +112,13 @@ const Cart = () => {
                         <button onClick={() => handleDecrement(item._id)}>
                           -
                         </button>
-                        <span>{cartItem?.quantity ?? 0}</span>
+                        <span>{cartItem.quantity}</span>
                         <button onClick={() => handleIncrement(item._id)}>
                           +
                         </button>
                       </div>
                       <p className="cart-item-price">
-                        ₹ {item.price * (cartItem?.quantity ?? 0)}
+                        ₹ {item.price * cartItem.quantity}
                       </p>
                       <div className="remove-btn-container">
                         <button
@@ -132,7 +131,7 @@ const Cart = () => {
                     </div>
                   </div>
                 </div>
-              );
+              ) : null;
             })}
             <div className="cart-summary">
               <div className="cart-total-wrap">
@@ -291,6 +290,5 @@ const Wrapper = styled.section`
     margin-bottom: 10px;
   }
 `;
-
 
 export default Cart;

@@ -179,7 +179,7 @@ const TxnReport = () => {
         const response = await dispatch(getReportData());
         let result = response.payload.data.txn_data;
 
-        console.log(result, "this is result - 187");
+        // console.log(result, "this is result - 187");
         setData(result);
         setFilteredData(result);
       } catch (error) {

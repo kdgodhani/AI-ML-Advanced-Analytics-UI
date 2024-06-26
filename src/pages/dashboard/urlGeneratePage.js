@@ -85,7 +85,7 @@ const GenerateLink = () => {
         const response = await dispatch(getAllPendingOrder());
         let result = response.payload.data;
 
-        console.log(result, "this is result - 87 - urlgeneratePage");
+        // console.log(result, "this is result - 87 - urlgeneratePage");
 
         setOrders(result);
       } catch (error) {
@@ -102,7 +102,7 @@ const GenerateLink = () => {
       const response = await dispatch(generateSecurePaymentLink(orderId));
       let result = response.payload.data;
 
-      console.log(result, "this is result ");
+      // console.log(result, "this is result ");
       setGeneratedUrl(result.payment_link);
       setModalOpen(true);
     } catch (error) {

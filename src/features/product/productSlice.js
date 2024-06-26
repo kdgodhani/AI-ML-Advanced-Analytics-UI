@@ -16,7 +16,7 @@ export const fetchProducts = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const resp = await customFetch.get("product/getAll");
-      console.log(resp, "resp- 22");
+      // console.log(resp, "resp- 22");
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -29,7 +29,7 @@ export const fetchProducts = createAsyncThunk(
 export const getProductById = createAsyncThunk(
   "products/fetchProductById",
   async (productId, thunkAPI) => {
-    console.log(getProductById, "getProductById");
+    // console.log(getProductById, "getProductById");
     try {
       const resp = await customFetch.get(
         `product/getById?productId=${productId}`
@@ -64,15 +64,17 @@ const productsSlice = createSlice({
       .addCase(fetchProducts.rejected, (state, { payload }) => {
         state.isLoading = false;
         // state.error = payload;
-        toast.error(payload && payload.message?payload.message:"Server Error");
+        toast.error(
+          payload && payload.message ? payload.message : "Server Error"
+        );
       })
 
       .addCase(getProductById.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(getProductById.fulfilled, (state, { payload }) => {
-        console.log(payload, "this is payload  - 108");
-        console.log(state, "this is state");
+        // console.log(payload, "this is payload  - 108");
+        // console.log(state, "this is state");
         state.isLoading = false;
         state.productData = payload.data;
         // state.totalProducts = payload.data.length;
@@ -80,7 +82,9 @@ const productsSlice = createSlice({
       .addCase(getProductById.rejected, (state, { payload }) => {
         state.isLoading = false;
         // state.error = payload;
-        toast.error(payload && payload.message?payload.message:"Server Error");
+        toast.error(
+          payload && payload.message ? payload.message : "Server Error"
+        );
       });
   },
 });

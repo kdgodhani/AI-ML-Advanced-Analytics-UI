@@ -20,7 +20,7 @@ const ProductPage = () => {
   }, [dispatch]);
 
   const handleAddToCart = (productId) => {
-    console.log(productId, "productId");
+    // console.log(productId, "productId");
     dispatch(addToCart(productId));
     toast.success("Added to Cart", {
       position: "top-center",

@@ -34,11 +34,19 @@ const MainLayout = () => {
             </ProtectedRoute>
           }
         >
-          <Route path="home" element={<Home />} />
+          <Route
+            path="home"
+            element={
+              <ProtectedRoute roles={["Admin", "Customer"]}>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+
           <Route
             path="report-dashboard"
             element={
-              <ProtectedRoute roles={["Admin"]}>
+              <ProtectedRoute roles={["Admin", "Customer"]}>
                 <ReportDashboard />
               </ProtectedRoute>
             }
@@ -97,6 +105,7 @@ const MainLayout = () => {
 
         <Route path="landing" element={<Landing />} />
         <Route path="register" element={<Register />} />
+        {/* <Route path="home" element={<Home />} /> */}
 
         <Route path="payment/checkout" element={<CheckoutPage />} />
         <Route path="payment/securelink" element={<SecureLink />} />
